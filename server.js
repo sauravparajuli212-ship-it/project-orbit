@@ -8,8 +8,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: "10kb" }));
-
-// Serve the ORBIT dashboard and its files.
 app.use(express.static(__dirname));
 
 if (!process.env.GEMINI_API_KEY) {
@@ -21,6 +19,43 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
+// Basic in-memory request limit.
+// This is a safeguard, not a strict daily quota.
+const requestCounts = new Map();
+const WINDOW_MS = 60 * 60 * 1000;
+const MAX_REQUESTS_PER_IP = 10;
+
+app.use("/api/chat", (req, res, next) => {
+    const ip = req.ip;
+    const now = Date.now();
+    let entry = requestCounts.get(ip);
+
+    if (!entry || now - entry.start >= WINDOW_MS) {
+        entry = { start: now, count: 0 };
+    }
+
+    if (entry.count >= MAX_REQUESTS_PER_IP) {
+        return res.status(429).json({
+            error: "You've reached the chat limit for this hour. Please try again later."
+        });
+    }
+
+    entry.count++;
+    requestCounts.set(ip, entry);
+    next();
+});
+
+// Periodically remove expired entries from memory.
+setInterval(() => {
+    const now = Date.now();
+
+    for (const [ip, entry] of requestCounts) {
+        if (now - entry.start >= WINDOW_MS) {
+            requestCounts.delete(ip);
+        }
+    }
+}, WINDOW_MS).unref();
+
 app.get("/api/health", (req, res) => {
     res.json({
         status: "online",
@@ -29,8 +64,6 @@ app.get("/api/health", (req, res) => {
 });
 
 app.post("/api/chat", async (req, res) => {
-    console.log("ORBIT received a chat request");
-
     try {
         const message = req.body?.message;
 
@@ -52,49 +85,41 @@ app.post("/api/chat", async (req, res) => {
             config: {
                 systemInstruction:
                     "You are ORBIT, a helpful AI assistant. Explain clearly for beginners. Complete your sentences and requested bullet points. Keep answers concise.",
-                maxOutputTokens: 2048
+                maxOutputTokens: 1024
             }
         });
 
-        console.log("FULL AI RESPONSE:", response.text);
-        console.log(
-            "FINISH REASON:",
-            response.candidates?.[0]?.finishReason
-        );
+        const reply = (response.text ||
+            "I couldn't generate a response. Please try again.")
+            .replace(/&#x20;/gi, " ")
+            .replace(/&#x48;/gi, "H")
+            .replace(/&#x59;/gi, "Y");
 
-        // Work around the two character references observed in earlier replies.
-       const reply = (response.text ||
-    "I couldn't generate a response. Please try again.")
-    .replace(/&#x20;/gi, " ")
-    .replace(/&#x48;/gi, "H")
-    .replace(/&#x59;/gi, "Y");
-        res.json({ reply });
+        return res.json({ reply });
 
-  
-} catch (error) {
-    console.error("AI request failed:", error);
+    } catch (error) {
+        console.error("AI request failed:", error.message);
 
-    const message = String(error.message || "");
-    const isQuotaError =
-        error.status === 429 ||
-        error.code === 429 ||
-        message.includes("429") ||
-        message.toLowerCase().includes("quota") ||
-        message.includes("RESOURCE_EXHAUSTED");
+        const message = String(error.message || "");
+        const isQuotaError =
+            error.status === 429 ||
+            error.code === 429 ||
+            message.includes("429") ||
+            message.toLowerCase().includes("quota") ||
+            message.includes("RESOURCE_EXHAUSTED");
 
-    if (isQuotaError) {
-        return res.status(429).json({
-            error: "ORBIT has reached its current AI usage limit. Please try again after the quota resets."
+        if (isQuotaError) {
+            return res.status(429).json({
+                error: "ORBIT has reached its current AI usage limit. Please try again after the quota resets."
+            });
+        }
+
+        return res.status(500).json({
+            error: "ORBIT couldn't get an AI response. Please try again shortly."
         });
     }
-
-    res.status(500).json({
-        error: "ORBIT couldn't get an AI response. Please try again shortly."
-    });
-}
-
 });
 
 app.listen(PORT, () => {
-    console.log(`ORBIT backend running at http://localhost:${PORT}`);
+    console.log(`ORBIT backend running on port ${PORT}`);
 });
