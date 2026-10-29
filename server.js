@@ -70,14 +70,29 @@ app.post("/api/chat", async (req, res) => {
     .replace(/&#x59;/gi, "Y");
         res.json({ reply });
 
-    } catch (error) {
+  
+} catch (error) {
     console.error("AI request failed:", error);
 
+    const message = String(error.message || "");
+    const isQuotaError =
+        error.status === 429 ||
+        error.code === 429 ||
+        message.includes("429") ||
+        message.toLowerCase().includes("quota") ||
+        message.includes("RESOURCE_EXHAUSTED");
+
+    if (isQuotaError) {
+        return res.status(429).json({
+            error: "ORBIT has reached its current AI usage limit. Please try again after the quota resets."
+        });
+    }
+
     res.status(500).json({
-        error: error.message ||
-            "ORBIT couldn't get an AI response. Please try again."
+        error: "ORBIT couldn't get an AI response. Please try again shortly."
     });
 }
+
 });
 
 app.listen(PORT, () => {
