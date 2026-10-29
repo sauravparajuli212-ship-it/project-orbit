@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <title>Project ORBIT — AI Command Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard">
+
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon">O</span>
+                <span>ORBIT</span>
+            </div>
+
+            <p class="menu-label">WORKSPACE</p>
+
+            <button class="nav-item active" type="button">◈ Dashboard</button>
+            <button class="nav-item" type="button">✧ AI Assistant</button>
+            <button class="nav-item" type="button">▤ My Projects</button>
+
+            <div class="sidebar-bottom">
+                <div class="status-dot"></div>
+                <span>ORBIT SYSTEM ONLINE</span>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">PERSONAL AI SYSTEM</p>
+                    <h2>Command Center</h2>
+                </div>
+                <div class="profile">S</div>
+            </header>
+
+            <section class="welcome">
+                <p class="eyebrow">YOUR SPACE. YOUR IDEAS.</p>
+                <h1>Welcome back, <span>Creator.</span></h1>
+                <p>Your next great idea starts here.</p>
+            </section>
+
+            <section class="workspace">
+                <div class="core-panel">
+                    <div class="panel-heading">
+                        <span>ORBIT CORE</span>
+                        <span class="live-label">● LIVE</span>
+                    </div>
+
+                    <div class="orbit-visual">
+                        <div class="orbit-ring ring-one"></div>
+                        <div class="orbit-ring ring-two"></div>
+                        <div class="orbit-core"></div>
+                    </div>
+
+                    <h2>Ready when you are.</h2>
+                    <p>Your personal AI workspace.</p>
+                </div>
+
+                <div class="tools-panel">
+                    <p class="eyebrow">QUICK ACCESS</p>
+                    <h2>What will you create?</h2>
+
+                    <div class="tool-card">
+                        <span class="tool-icon">✧</span>
+                        <div>
+                            <h3>Generate Ideas</h3>
+                            <p>Explore new possibilities.</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <span class="tool-icon">&lt;/&gt;</span>
+                        <div>
+                            <h3>Code Assistant</h3>
+                            <p>Learn and build projects.</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <span class="tool-icon">✓</span>
+                        <div>
+                            <h3>Task Planner</h3>
+                            <p>Organize your next steps.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="chat-panel">
+                <div>
+                    <h3>ORBIT Conversation</h3>
+                    <p>Ask a question and start building.</p>
+                </div>
+
+                <div
+                    id="chat-messages"
+                    class="chat-messages"
+                    aria-live="polite"
+                    aria-label="Conversation with ORBIT"
+                >
+                    <div class="message assistant-message">
+                        <strong>ORBIT</strong>
+                        <p>System ready. Your conversation starts here.</p>
+                    </div>
+                </div>
+
+                <form id="chat-form" class="chat-input">
+                    <input
+                        id="chat-input"
+                        type="text"
+                        placeholder="Ask ORBIT anything..."
+                        aria-label="Message ORBIT"
+                        autocomplete="off"
+                        maxlength="2000"
+                        required
+                    >
+                    <button type="submit" aria-label="Send message">↑</button>
+                </form>
+
+                <p class="input-note">
+                    ORBIT AI connected · Responses powered by Gemini
+                </p>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/node_modules/marked/lib/marked.umd.js"></script>
+    <script src="/node_modules/dompurify/dist/purify.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
