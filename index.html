@@ -4,131 +4,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0b1020">
-    <title>Project ORBIT — AI Command Center</title>
+    <meta name="theme-color" content="#090a12">
+    <meta name="description" content="ORBIT — Your personal AI assistant.">
+    <title>ORBIT — AI Assistant</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="dashboard">
 
-        <aside class="sidebar">
-            <div class="brand">
-                <span class="brand-icon">O</span>
-                <span>ORBIT</span>
+    <!-- First visit name screen -->
+    <section id="welcome-screen" class="welcome-screen hidden">
+        <div class="welcome-card">
+            <div class="logo-mark">O</div>
+            <p class="eyebrow">YOUR PERSONAL AI</p>
+            <h1>Welcome to <span>ORBIT</span></h1>
+            <p class="welcome-description">
+                Before we begin, what should I call you?
+            </p>
+
+            <form id="name-form">
+                <input
+                    id="name-input"
+                    type="text"
+                    placeholder="Enter your first name or nickname"
+                    maxlength="30"
+                    autocomplete="given-name"
+                    required
+                >
+                <button type="submit">Continue <span>→</span></button>
+            </form>
+
+            <p class="privacy-note">
+                Your name is saved in this browser. No account required.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main application -->
+    <div id="app" class="app hidden">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <a href="#" class="brand">
+                    <span class="logo-mark small">O</span>
+                    <span>ORBIT</span>
+                </a>
+
+                <button id="new-chat-btn" class="new-chat-btn">
+                    <span>＋</span> New chat
+                </button>
+
+                <p class="sidebar-label">RECENT CHATS</p>
+                <div id="chat-list" class="chat-list"></div>
             </div>
 
-            <p class="menu-label">WORKSPACE</p>
-
-            <button class="nav-item active" type="button">◈ Dashboard</button>
-            <button class="nav-item" type="button">✧ AI Assistant</button>
-            <button class="nav-item" type="button">▤ My Projects</button>
-
             <div class="sidebar-bottom">
-                <div class="status-dot"></div>
-                <span>ORBIT SYSTEM ONLINE</span>
+                <div class="user-avatar" id="sidebar-avatar">U</div>
+                <div class="user-details">
+                    <strong id="sidebar-name">User</strong>
+                    <span>Personal workspace</span>
+                </div>
+                <button id="change-name-btn" class="icon-button"
+                    title="Change display name" aria-label="Change name">
+                    ⋯
+                </button>
             </div>
         </aside>
 
-        <main class="main-panel">
-
+        <main class="main-area">
             <header class="topbar">
-                <div>
-                    <p class="eyebrow">PERSONAL AI SYSTEM</p>
-                    <h2>Command Center</h2>
+                <button id="mobile-menu-btn" class="icon-button mobile-menu"
+                    aria-label="Open sidebar">☰</button>
+
+                <div class="topbar-title">
+                    <span class="online-dot"></span>
+                    ORBIT <span class="model-label">AI Assistant</span>
                 </div>
-                <div class="profile">S</div>
+
+                <button id="top-new-chat" class="top-new-chat">
+                    ＋ New chat
+                </button>
             </header>
 
-            <section class="welcome">
-                <p class="eyebrow">YOUR SPACE. YOUR IDEAS.</p>
-                <h1>Welcome back, <span>Creator.</span></h1>
-                <p>Your next great idea starts here.</p>
-            </section>
+            <section id="conversation" class="conversation">
 
-            <section class="workspace">
-                <div class="core-panel">
-                    <div class="panel-heading">
-                        <span>ORBIT CORE</span>
-                        <span class="live-label">● LIVE</span>
-                    </div>
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-logo">O</div>
+                    <p class="eyebrow">YOUR AI WORKSPACE</p>
+                    <h1>What can I help with, <span id="welcome-name">there</span>?</h1>
+                    <p class="empty-description">
+                        Ask questions, explore ideas, or build something amazing.
+                    </p>
 
-                    <div class="orbit-visual">
-                        <div class="orbit-ring ring-one"></div>
-                        <div class="orbit-ring ring-two"></div>
-                        <div class="orbit-core"></div>
-                    </div>
+                    <div class="suggestions">
+                        <button class="suggestion" data-prompt="Explain artificial intelligence in simple words.">
+                            <span>✧</span>
+                            <div>
+                                <strong>Learn something</strong>
+                                <small>Explore a new topic</small>
+                            </div>
+                        </button>
 
-                    <h2>Ready when you are.</h2>
-                    <p>Your personal AI workspace.</p>
-                </div>
+                        <button class="suggestion" data-prompt="Help me build a website step by step.">
+                            <span>&lt;/&gt;</span>
+                            <div>
+                                <strong>Build a project</strong>
+                                <small>Code and create</small>
+                            </div>
+                        </button>
 
-                <div class="tools-panel">
-                    <p class="eyebrow">QUICK ACCESS</p>
-                    <h2>What will you create?</h2>
+                        <button class="suggestion" data-prompt="Give me five creative project ideas.">
+                            <span>✦</span>
+                            <div>
+                                <strong>Get creative</strong>
+                                <small>Discover new ideas</small>
+                            </div>
+                        </button>
 
-                    <div class="tool-card">
-                        <span class="tool-icon">✧</span>
-                        <div>
-                            <h3>Generate Ideas</h3>
-                            <p>Explore new possibilities.</p>
-                        </div>
-                    </div>
-
-                    <div class="tool-card">
-                        <span class="tool-icon">&lt;/&gt;</span>
-                        <div>
-                            <h3>Code Assistant</h3>
-                            <p>Learn and build projects.</p>
-                        </div>
-                    </div>
-
-                    <div class="tool-card">
-                        <span class="tool-icon">✓</span>
-                        <div>
-                            <h3>Task Planner</h3>
-                            <p>Organize your next steps.</p>
-                        </div>
+                        <button class="suggestion" data-prompt="Help me organize my tasks for today.">
+                            <span>✓</span>
+                            <div>
+                                <strong>Plan my day</strong>
+                                <small>Organize your work</small>
+                            </div>
+                        </button>
                     </div>
                 </div>
-            </section>
 
-            <section class="chat-panel">
-                <div>
-                    <h3>ORBIT Conversation</h3>
-                    <p>Ask a question and start building.</p>
-                </div>
-
-                <div
-                    id="chat-messages"
-                    class="chat-messages"
+                <div id="chat-messages" class="chat-messages"
                     aria-live="polite"
-                    aria-label="Conversation with ORBIT"
-                >
-                    <div class="message assistant-message">
-                        <strong>ORBIT</strong>
-                        <p>System ready. Your conversation starts here.</p>
-                    </div>
+                    aria-label="Conversation with ORBIT">
                 </div>
 
-                <form id="chat-form" class="chat-input">
-                    <input
+            </section>
+
+            <footer class="composer-area">
+                <form id="chat-form" class="composer">
+                    <textarea
                         id="chat-input"
-                        type="text"
-                        placeholder="Ask ORBIT anything..."
+                        placeholder="Message ORBIT..."
                         aria-label="Message ORBIT"
-                        autocomplete="off"
-                        maxlength="2000"
+                        rows="1"
+                        maxlength="10000"
                         required
-                    >
-                    <button type="submit" aria-label="Send message">↑</button>
+                    ></textarea>
+
+                    <button type="submit" id="send-button"
+                        aria-label="Send message">↑</button>
                 </form>
 
-                <p class="input-note">
-                    ORBIT AI connected · Responses powered by Gemini
+                <p class="composer-note">
+                    ORBIT can make mistakes. Check important information.
                 </p>
-            </section>
-
+            </footer>
         </main>
     </div>
 
