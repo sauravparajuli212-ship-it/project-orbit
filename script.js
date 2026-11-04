@@ -564,9 +564,8 @@ chatForm.addEventListener("submit", async event => {
                 role: message.role,
                 text: message.text
             }));
-
-        const response = await fetch("/api/chat", {
-            method: "POST",
+const response = await fetch("https://project-orbit-1.onrender.com/api/chat", {
+    method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
