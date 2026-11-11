@@ -1,12 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#090a12">
-    <meta name="description" content="ORBIT — Your personal AI assistant.">
-    <title>ORBIT — AI Assistant</title>
+    <meta name="theme-color" content="#f7f8fc">
+    <meta name="description" content="ORBIT — A personal AI workspace built by Saurav Parajuli.">
+    <meta name="color-scheme" content="light">
+    <title>ORBIT — Your AI Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,10 +18,11 @@
     <section id="welcome-screen" class="welcome-screen hidden">
         <div class="welcome-card">
             <div class="logo-mark">O</div>
-            <p class="eyebrow">YOUR PERSONAL AI</p>
+            <p class="eyebrow">YOUR PERSONAL AI WORKSPACE</p>
             <h1>Welcome to <span>ORBIT</span></h1>
             <p class="welcome-description">
-                Before we begin, what should I call you?
+                A space to ask questions, think through ideas, and get things done.
+                First, what should I call you?
             </p>
 
             <form id="name-form">
@@ -34,7 +38,7 @@
             </form>
 
             <p class="privacy-note">
-                Your name is saved in this browser. No account required.
+                Your display name is saved in this browser. No account required.
             </p>
         </div>
     </section>
@@ -44,12 +48,12 @@
 
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-top">
-                <a href="#" class="brand">
+                <a href="#" class="brand" aria-label="ORBIT home">
                     <span class="logo-mark small">O</span>
                     <span>ORBIT</span>
                 </a>
 
-                <button id="new-chat-btn" class="new-chat-btn">
+                <button id="new-chat-btn" class="new-chat-btn" type="button">
                     <span>＋</span> New chat
                 </button>
 
@@ -63,7 +67,7 @@
                     <strong id="sidebar-name">User</strong>
                     <span>Personal workspace</span>
                 </div>
-                <button id="change-name-btn" class="icon-button"
+                <button id="change-name-btn" class="icon-button" type="button"
                     title="Change display name" aria-label="Change name">
                     ⋯
                 </button>
@@ -72,7 +76,7 @@
 
         <main class="main-area">
             <header class="topbar">
-                <button id="mobile-menu-btn" class="icon-button mobile-menu"
+                <button id="mobile-menu-btn" class="icon-button mobile-menu" type="button"
                     aria-label="Open sidebar">☰</button>
 
                 <div class="topbar-title">
@@ -80,81 +84,51 @@
                     ORBIT <span class="model-label">AI Assistant</span>
                 </div>
 
-                <button id="top-new-chat" class="top-new-chat">
+                <button id="top-new-chat" class="top-new-chat" type="button">
                     ＋ New chat
                 </button>
             </header>
 
             <section id="conversation" class="conversation">
-
                 <div id="empty-state" class="empty-state">
                     <div class="empty-logo">O</div>
-                    <p class="eyebrow">YOUR AI WORKSPACE</p>
+                    <p class="eyebrow">A FRESH SPACE TO THINK</p>
                     <h1>What can I help with, <span id="welcome-name">there</span>?</h1>
                     <p class="empty-description">
-                        Ask questions, explore ideas, or build something amazing.
+                        Ask a question, work through an idea, or start building something.
                     </p>
 
                     <div class="suggestions">
-                        <button class="suggestion" data-prompt="Explain artificial intelligence in simple words.">
+                        <button class="suggestion" type="button" data-prompt="Explain artificial intelligence in simple words.">
                             <span>✧</span>
-                            <div>
-                                <strong>Learn something</strong>
-                                <small>Explore a new topic</small>
-                            </div>
+                            <div><strong>Learn something</strong><small>Explore a new topic</small></div>
                         </button>
-
-                        <button class="suggestion" data-prompt="Help me build a website step by step.">
+                        <button class="suggestion" type="button" data-prompt="Help me build a website step by step.">
                             <span>&lt;/&gt;</span>
-                            <div>
-                                <strong>Build a project</strong>
-                                <small>Code and create</small>
-                            </div>
+                            <div><strong>Build a project</strong><small>Code and create</small></div>
                         </button>
-
-                        <button class="suggestion" data-prompt="Give me five creative project ideas.">
+                        <button class="suggestion" type="button" data-prompt="Give me five creative project ideas.">
                             <span>✦</span>
-                            <div>
-                                <strong>Get creative</strong>
-                                <small>Discover new ideas</small>
-                            </div>
+                            <div><strong>Get creative</strong><small>Discover new ideas</small></div>
                         </button>
-
-                        <button class="suggestion" data-prompt="Help me organize my tasks for today.">
+                        <button class="suggestion" type="button" data-prompt="Help me organize my tasks for today.">
                             <span>✓</span>
-                            <div>
-                                <strong>Plan my day</strong>
-                                <small>Organize your work</small>
-                            </div>
+                            <div><strong>Plan my day</strong><small>Organize your work</small></div>
                         </button>
                     </div>
                 </div>
 
                 <div id="chat-messages" class="chat-messages"
-                    aria-live="polite"
-                    aria-label="Conversation with ORBIT">
-                </div>
-
+                    aria-live="polite" aria-label="Conversation with ORBIT"></div>
             </section>
 
             <footer class="composer-area">
                 <form id="chat-form" class="composer">
-                    <textarea
-                        id="chat-input"
-                        placeholder="Message ORBIT..."
-                        aria-label="Message ORBIT"
-                        rows="1"
-                        maxlength="10000"
-                        required
-                    ></textarea>
-
-                    <button type="submit" id="send-button"
-                        aria-label="Send message">↑</button>
+                    <textarea id="chat-input" placeholder="Message ORBIT..."
+                        aria-label="Message ORBIT" rows="1" maxlength="10000" required></textarea>
+                    <button type="submit" id="send-button" aria-label="Send message">↑</button>
                 </form>
-
-                <p class="composer-note">
-                    ORBIT can make mistakes. Check important information.
-                </p>
+                <p class="composer-note">ORBIT can make mistakes. Check important information.</p>
             </footer>
         </main>
     </div>
