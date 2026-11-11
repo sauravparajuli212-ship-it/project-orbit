@@ -11,6 +11,33 @@ const MODEL = "openai/gpt-oss-20b";
 const CREATOR = "Saurav Parajuli";
 const PROVIDER = "Groq";
 
+// Allow the ORBIT frontend hosted on GitHub Pages to call this API.
+const allowedOrigins = new Set([
+    "https://sauravparajuli212-ship-it.github.io"
+]);
+
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+
+    if (allowedOrigins.has(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Vary", "Origin");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    }
+
+    // Browsers send this preflight request before cross-origin JSON POSTs.
+    if (req.method === "OPTIONS") {
+        if (!allowedOrigins.has(origin)) {
+            return res.sendStatus(403);
+        }
+
+        return res.sendStatus(204);
+    }
+
+    next();
+});
+
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(__dirname));
 
